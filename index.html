@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>3D in web</title>
+    <meta name="author" content="Velislava Petkova"/>
+    <meta name="keywords" content="3D, three.js, phisijs, tween"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="javascript/bootstrap.bundle.min.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav id="buttonsPar">
+        <button><a href="#intro_section"> 3D графика</a></button>
+        <button><a href="#threejs_section">Three.js</a></button>
+        <button><a href="#effects_section">Ефекти</a></button>
+        <button><a href="#physics_section">Физика</a></button>
+        <button><a href="#more_libraries_section">Други 3D библиотеки</a></button>
+        <button><a href="#css_section">CSS и 3D графиката</a></button>
+        <button><a href="#sources_section">Източници</a></button>
+    </nav>
+
+
+    <header id="main_header">
+        <h1 id="pageTitle">Изграждане на 3D в Уеб</h1>
+    </header>
+
+
+    <main>
+
+        <section id="intro_section">
+            <header>
+                <h2 class="section_title">3D графика</h2>
+            </header>
+
+            <p>
+                Всички сме чували за 3D графика, 3D
+                филми и моделиране. Но какво всъщност означава това и как се създава? Именно тези въпроси ще разгледаме сега.
+                3D графика наричаме създаването, показването и манипулирането на обекти в компютъра в три измерения.
+            </p>
+
+            <p>
+                3D обектите могат да се завъртат и разглеждат от различни страни, да се мащабират, да се осветяват, като
+                освен това може да се стилизират (да имат цветове, текстури) и да се „движат“, за да ни помогнат за създаването на
+                интересни анимации.
+            </p>
+
+            <p>
+                За работа с 3D обекти има множество различни стандарти и библиотеки, като за създаването им в уеб често
+                използваме CSS, WebGL (Web Graphics Library) и
+                WebGL базирани библиотеки като three.js. Има и огромен набор от библиотеки, които помагат на нашия модел
+                да е по-интерактивен или да е по-реалистичен при движение, като някои от тях ще разгледаме сега.
+            </p>
+
+            <p>
+                Един от основните инструменти за триизмерна графика в уеб е WebGL. Това е отворен
+                уеб стандарт, базиран на OpenGL, чрез който можем да създаваме 2D, 3D фигури, да ги моделираме и
+                анимираме. Използват се така наречените шейдъри, които
+                представляват програмен код, работещ на вашия графичен процесор. Използването на "чист"
+                WebGL обаче е доста трудна задача, поради което често в практиката използваме
+                WebGL-базирани библиотеки, като например three.js.
+            </p>
+
+        </section>
+
+        <section id="threejs_section">
+            <header>
+                <h2 class="section_title">Three.js</h2>
+
+            </header>
+
+            <p>
+                Макар WebGL да е много силен инструмент, изпозлването на чист WebGL е доста трудоемко. За щастие на помощ
+                идват 3D библиотеки, като three.js, които много улесняват работата с триизмерни обекти в уеб. За целта ни е
+                необходим html документ, като пишем нашия код в &ltscript&gt тага.
+            </p>
+
+            <a href="https://threejs.org/" target="_blank" class="downloadLinks">Изтеглете three.js</a>
+
+
+            <p> При работата с three.js има няколко важни и интересни неща, които трябва да обсъдим:</p>
+
+            <ol>
+                <li>Създаване на сцена</li>
+                <li>Геометрии</li>
+                <li>Материали</li>
+                <li>Анимация</li>
+            </ol>
+
+            <section>
+                <h3 class="itemTitle">1. Създаване на сцена</h3>
+                <p>
+                    При създаване на сцена с three.js имаме Renderer, което представлява основният three.js обект. На него
+                    подаваме обектите Scene и Camera и
+                    той рисува частта от сцената, която е видима за камерата. Освен това трябва да добавим и светлина към
+                    сцената, за да се различават страните на добавения от нас обект.<a href="#source1" class="nlink" id="nlink1">[1]</a>
+                </p>
+
+                <p>
+                    Добавянето на сцена е доста лесно, просто добавяме обект THREE.Scene() по следния начин:
+                    <code class="exampleCode">var scene = new THREE.Scene();</code>
+                </p>
+
+                <p>
+                    Създаването на камера изисква малко повече данни. Трябва да подадем параметрите на полето, позицията на
+                    камерата и точката, към която гледа.
+                </p>
+
+                <p>
+                    Ще използваме PerspectiveCamera, тъй като този вид камера ни предоставя триизмерен изглед, който помага
+                    нещата да изглеждат с различен размер в зависимост от разстоянието,
+                    на което се намират от камерата. При създаването ѝ се определя изгледът по четири параметъра – near,
+                    far, fov, aspect, които определят нашата перспектива.<a href="#source2" class="nlink" id="nlink2">[2]</a>
+                </p>
+
+                <div class="exampleFigure noBackground">
+                    <h4 class="figureTitle">Фиг. 1 - Перспектива</h4><img src="img/46_01.jpg" width=300px>
+                </div>
+
+                <p>
+                    При нея near показва на какво разстояние от нас започва видимата част от сцената, far показва къде
+                    приключва, fov (field of view) изчислява височината на предната и задната видима част спрямо подадения
+                    параметър, а aspect дефинира широчината на предната и задната част.
+                </p>
+
+                <p>
+                    Създаването е по следния начин:
+                    <code class="exampleCode">const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);</code>
+                </p>
+
+                <p>
+                    Чрез <code class="exampleCode">camera.position.set(x,y,z) </code>добавяме позицията на камерата, а чрез camera.lookAt() определяме
+                    точката, към която гледаме.
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 1 - Нашата първа сцена</h4>
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	var scene = new THREE.Scene();
+		
+	//Добавяме фон на сцената
+	scene.background = new THREE.Color('#E6E6FA');
+		
+	//Аспектът е с пропорции като на прозореца
+	var aspect = window.innerWidth/window.innerHeight;
+
+	var camera = new THREE.PerspectiveCamera( 60, aspect, 1, 100 );				
+	camera.position.set( 1, 1, 2 ); //позиция на камерата
+	camera.lookAt( new THREE.Vector3(0,0,0) ); 
+
+	//Създаваме генератор за образ
+	var renderer = new THREE.WebGLRenderer({antilas: true});
+	renderer.setSize( window.innerWidth, window.innerHeight );
+				
+	//Добавяме рисувателно поле към страницата
+	document.body.appendChild( renderer.domElement );
+
+	//Добавяме и светлинен източник, на който задаваме координати
+	var light = new THREE.PointLight();
+	light.position.set( 1, 2, 3 );
+	scene.add( light );
+
+	//Ще добавим и първия си триизмерен обект към сцената. 
+	//За момента важното е, че трябва да има геометрия, задаваща формата му, и 
+	//материал. Обектът по подразбиране се създава с размер на страната
+	//1 в точка (0,0,0);
+
+	var geometry = new THREE.BoxGeometry();
+	var material = new THREE.MeshLambertMaterial();
+	var cube = new THREE.Mesh( geometry, material );
+
+	// Добавяме обекта към сцената
+	scene.add( cube );
+
+	//И казваме на renderer да обработи нашите сцена и камера
+	renderer.render( scene, camera );
+	</xmp></code>	</pre>
+                </div>
+
+                <p>Нека видим получения резултат.</p>
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 2 - Куб</h4><img src="img/46_02.png" width=300px;>
+                </div>
+
+            </section>
+
+            <section>
+                <h3 class="itemTitle">2. Геометрии</h3>
+                <p>
+                    Всеки обект, който създаваме, трябва да има зададена геометрия. Тя може да е двуизмерна или
+                    триизмерна, като имената на геометриите имат формата THREE.[Shape]Geometry(). Имаме различни
+                    предварително създадени форми, като	например BoxGeometry, ConeGeometry, TorusGeometry, CylinderGeometry и т.н.,
+                    като всяка геометрия изисква различни подадени аргументи за създаването ѝ.
+                </p>
+                <p>
+                    Нека разгледаме за пример геометрията на конус. Конструкторът за конус има следните параметри:
+                    <code class="exampleCode">
+                        ConeGeometry(radius : Float, height : Float, radialSegments : Integer,
+                        heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float)
+                        <a href="#source3" class="nlink" id="nlink3">[3]</a>
+                    </code>.
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 2 - Цял конус</h4>
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	var cGeometry = new THREE.ConeGeometry( 5, 17, 25 ); 
+	var material = new THREE.MeshLambertMaterial({color: '#6699ff'});
+	var cone = new THREE.Mesh( cGeometry, material );
+	scene.add( cone );	
+	</xmp></code></pre>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 3 - Цял конус</h4><img src="img/46_03.jpg" width=300px>
+                </div>
+
+                <p>
+                    Чрез манипулирането на отделните атрибути може да направим конус или пирамида, да направим обекта кух или
+                    да начертаем само част от него, сякаш е отрязан по вертикала.
+                </p>
+                <p>
+                    Създаваме пирамида, отрязана по вертикала – за целта добавяме
+                    thetaStart – показваща от кой ъгъл на основата започваме да чертаем, както и thetaLength – определящ
+                    дължината на нарисуваната част.
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 3 - Отрязан конус</h4>
+
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	var cGeometry = new THREE.ConeGeometry(5,17,10,1, false, 1,4);
+	var material = new THREE.MeshLambertMaterial({color: '#6699ff'});
+	material.side=THREE.DoubleSide;
+	var cone = new THREE.Mesh( cGeometry, material );
+	scene.add( cone );
+	</xmp></code></pre>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 4 - Отрязан конус</h4><img src="img/46_04.jpg" width=300px>
+                </div>
+
+            </section>
+
+            <section>
+                <h3 class="itemTitle">3. Материали</h3>
+
+                <p>
+                    Освен геометрия всеки обект има също така и материал. Чрез него задаваме цвета, лъскавината,
+                    прозрачността и други интересни характеристики като текстура, дълбочина, видими страни.
+                    <a href="#source4" class="nlink" id="nlink4">[4]</a>
+                </p>
+
+                <p>
+                    Едно от основните свойства на материалите е Side. Чрез него определяме коя страна
+                    на рисувания материал да бъде показана - THREE.FrontSide, THREE.BackSide или
+                    THREE.DoubleSide тоест и двете страни.
+                </p>
+
+                <p>
+                    Нека разгледаме пример, в който единствената промяна е стойността на Side. На примера
+                    виждаме един и същи отрязан по вертикала конус. Когато зададем FrontSide, вътрешната страна на конуса,
+                    която гледа към нас, не се рисува, поради което виждаме един малък отрязък, който всъщност е видимата за камерата
+                    външна част на обекта(предната му страна в случая). Когато задаваме BackSide пък виждаме само вътрешната част
+                    от конуса, тоест не се вижда отрязъка, който беше изобразен при FrontSide. DoubleSide е
+                    най-подходящ в случая, тъй като представя нещата реално и ни показва това, което бихме видяли от конуса в реалния свят.
+                </p>
+
+                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="img/46_17.jpg" class="d-block" style="width:100%">
+                            <div class="carousel-caption">DoubleSide</div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="img/46_18.jpg" class="d-block" style="width:100%">
+                            <div class="carousel-caption">FrontSide</div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="img/46_19.jpg" class="d-block" style="width:100%">
+                            <div class="carousel-caption">BackSide</div>
+
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <p>
+                    Нека сега разгледаме някои основни видове материали. За целта ще използваме така наречения „Чайник от Юта“.
+                    Той е създаден от Мартин Нюел през 1975 и поради интересната му геометрия, заради която
+                    хвърля сянка върху себе си, често се използва за илюстриране на различни материали.
+                    Геометрията на чайника може да изтеглите от
+                    <a href="https://threejs.org/examples/?q=teap#webgl_geometry_teapot" target="_blank">ТУК</a>
+                </p>
+
+                <div class="exampleFigure noBackground">
+                    <h4 class="figureTitle">Фиг. 5 - Чайникът от Юта </h4><img src="img/46_05.jpg" width=300px>
+                </div>
+
+                <p>
+                    Когато създаваме материал, форматът му е MaterialName({parameters}), където {parameters} е опционално,
+                    и в него може да добавим различни свойства като например цвят. Цветът се добавя чрез свойството color и
+                    трябва да е в шестнайсетичен
+                    формат или изписан с малки латински букви (ако има точно наименование).
+                </p>
+
+                <h4>MeshBasicMaterial()</h4>
+                <p>
+                    Това е един от най-простите материали, който е най-малко натоварващ за вашия браузър.
+                    Не отчита осветяване, поради което фигурите, създадени с него изглеждат плоски. Това го
+                    прави неподходящ в повечето случаи за триизмерни обекти.<a href="#source5" class="nlink" id="nlink5">[5]</a>
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 4 - Basic Material</h4>
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	var myTeapotGeometry = new THREE.TeapotGeometry(5);
+	var material1 = new THREE.MeshBasicMaterial({color: 'purple'});
+	var teapot1 = new THREE.Mesh(myTeapotGeometry, material1);
+	scene.add(teapot1);
+
+	</xmp></code></pre>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 6 - "Плосък" чайник</h4><img src="img/46_06.jpg" width=300px>
+                </div>
+
+                <h4>MeshLambertMaterial()</h4>
+                <p>
+                    Този материал отчита осветяване и засенчване и се използва за обекти без блясък и огледален ефект.
+                    Начинът на пресмятане на осветяването е по Ламбертовия модел за изчисляване на отражение, като той е
+                    подходящ за имитация на материали
+                    като камък, дърво и други матови повърхности.
+                    <a href="#source6" class="nlink" id="nlink6">[6]</a>
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 5 - Lambert Material</h4>
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	var myTeapotGeometry = new THREE.TeapotGeometry(5);
+	var material2 = new THREE.MeshLambertMaterial({color: 'lightblue'});
+	var teapot2 = new THREE.Mesh(myTeapotGeometry, material2);
+	scene.add(teapot2);
+	</xmp></code></pre>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 7 - Ламбертов чайник 1</h4><img src="img/46_07.jpg" width=300px>
+                </div>
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 8 - Ламбертов чайник 2</h4><img src="img/46_08.jpg" width=300px>
+                </div>
+
+                <h4>MeshPhongMaterial()</h4>
+                <p>
+                    Така нареченият Фонгов материал се използва за представяне на по-лъскави и огледални повърхности
+                    като метал, полирано дърво, стъкло и други гланцови материи.
+                </p>
+                <p>
+                    Макар материалът да е по-бавен от Ламбертовия, Фонговият се справя по-добре с по-големите стени. При него
+                    чрез shininess
+                    определяме нивото на лъскавина, като 0 е матов, 50 е леко лъскав и 300 е за много лъскав материал.
+                    <a href="#source7" class="nlink" id="nlink7">[7]</a>
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 6 - Phong Material</h4>
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	var material2 = new THREE.MeshPhongMaterial({color: 'silver', 
+	shininess: 200 });
+
+	var teapot3 = new THREE.Mesh(myTeapotGeometry, material2);
+	teapot3.position.set(0,0,-20);
+	scene.add(teapot3);	
+	</xmp></code></pre>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 9 - Фонгов чайник 1 </h4><img src="img/46_09.jpg" width=300px>
+                </div>
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 10 - Фонгов чайник 2 </h4><img src="img/46_10.jpg" width=300px>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 11 - Сравнение на материалите</h4><img src="img/46_11.jpg" width=100%;>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="itemTitle">4. Анимации</h3>
+
+                <p>
+                    Анимирането на обектите може да се получи по доста различни начини – можем да мащабираме обектите по
+                    някоя ос, да преместваме центъра им, да ги завъртаме.
+                </p>
+
+                <p>
+                    За да създадем анимация трябва да кажем на нашия renderer да създаде цикъл от кадри и да запишем желаните
+                    действия във функция по следния начин:
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 7 - Задаване на анимация</h4>
+                <div class="scrollmenu exampleCode">
+                    <pre><code>	<xmp>
+	renderer.setAnimationLoop( frame );
+
+	function frame( time )
+	{ 
+                    <анимация>
+	}
+	</xmp></code></pre>
+                </div>
+
+                <p>Като за начало ще създадем сфера, която периодично ще преместваме по оста Х.</p>
+
+                <h4 class="exampleCodeTitle">Код 8 - Движение чрез транслация</h4>
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	//Създаваме сфера
+	var sphereMaterial = new THREE.MeshPhongMaterial({color: '#6699ff'});
+	var sphereGeometry = new THREE.SphereGeometry(3,100,100);		
+	var sphere = new THREE.Mesh(sphereGeometry,sphereMaterial);
+	scene.add(sphere);
+
+	//Казваме на рендъра да извика функцията frame			
+	renderer.setAnimationLoop( frame );
+
+	function frame( time )
+	{
+	// време в секунди
+	var t = time/1000;
+
+	//Преместваме позицията на сферата в интервала [-10,10]
+	//Стойността в cos определя скоростта на движението
+	sphere.position.set(10*Math.cos(5*t),0,0);
+			
+	// рисуваме текущия кадър
+	renderer.render( scene, camera );
+	}
+	</xmp></code></pre>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 12 Промяна на позиция</h4>
+                    <video width="100%" autoplay muted loop>
+                        <source src="img/46_12.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <p>
+                    Друг интересен пример е мащабиране на обект. Ще променяме периодично размера на нашата сфера по осите X и
+                    Y. Тъй като cos се мени от -1 до 1, но ние искаме минималната стойност на нашата сфера да е 1,
+                    задаваме ограничение размерът да се мени от 1 до 3.
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 9 - Движение чрез мащабиране</h4>
+                <div class="scrollmenu">
+                    <pre><code>	<xmp>
+	function frame( time )
+	{
+	// време в секунди
+	var t = time/1000;
+	
+	sphere.scale.set(3+2*Math.cos(t),3+2*Math.cos(t),1);
+	
+	// рисуваме текущия кадър
+		renderer.render( scene, camera );
+	}
+	
+	</xmp></code></pre>
+                </div>
+
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 13 Промяна на размера</h4>
+                    <video width="100%" autoplay muted loop>
+                        <source src="img/46_13.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <p>
+                    Освен това можем да анимираме обекти чрез ротация по определена ос (или оси).
+                    За примера ще използваме паралелепипед, за да се вижда по-ясно движението.
+                    За създаването му ще направим куб със страна 1 и ще мащабираме по отделните оси.
+                </p>
+
+                <h4 class="exampleCodeTitle">Код 10 - Движение чрез ротация</h4>
+
+                <div class="scrollmenu exampleCode">
+                    <pre><code><xmp>
+	
+	var geometry = new THREE.BoxGeometry(1);
+	var material = new THREE.MeshPhongMaterial({color: 'lightblue'});
+	var cube = new THREE.Mesh( geometry, material );
+		
+	cube.scale.set(10,6,6);
+	scene.add(cube);
+			
+	renderer.setAnimationLoop( frame );
+
+	function frame( time ){
+	
+	var t = time/1000;
+	
+	//Кубчето ни леко ще се поклаща настрани, като едновременно с това
+	//ще се върти около оста Y (която сочи нагоре).
+	//Чрез'ZYX' указваме реда, в който искаме да се извършват ротациите
+	cube.rotation.set(0,t/2,0.2*Math.cos(5*t), 'ZYX');
+
+	renderer.render( scene, camera );
+	}
+	</xmp></code></pre>
+                </div>
+
+                <div class="exampleFigure">
+                    <h4 class="figureTitle">Фиг. 14 Поклащане и въртене</h4>
+                    <video width="100%" autoplay muted loop>
+                        <source src="img/46_14.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </section>
+        </section>
+
+        <section id="effects_section">
+            <header>
+                <h2 class="section_title">Ефекти</h2>
+            </header>
+
+            <p>
+                След като показахме основните елементи, необходими за създаване на триизмерни обекти,
+                нека разгледаме и някои по-специални ефекти.
+            </p>
+
+            <h3 class="itemTitle">Tween</h3>
+
+            <p>
+                Когато искаме да създадем по-интересна и реалистична анимация на помощ идват разнообразни библиотеки,
+                като една от тях е tween. С нея можем да реализираме плавни движения от между крайни точки или по
+                треактория,
+                като същевременно можем да добавяме интересни свойства като еластичност, забавяне, плавност, фиксиран
+                брой повторения и т.н.             <a href="https://github.com/tweenjs/tween.js/" target="_blank" class="downloadLinks">Изтеглете tween.js</a>
+
+            </p>
+
+            <p>
+                В първия ни пример ще покажем движение на обект между два пилона, с ефект
+                на еластичност при "приемане" на топката от даден пилон. Идеята е, че добавяме
+                два обекта от тип Tween и им казваме от коя до коя точка искаме да има движение,
+                колко време да има след приключване на движението и какъв ефект искаме да добавим.
+            </p>
+
+            <h4 class="exampleCodeTitle">Код 11 - Движение с TWEEN.Easing.Elastic.Out</h4>
+
+            <div class="scrollmenu exampleCode">
+                <pre><code><xmp>
+	
+	//Записваме точките, между които ще се движи нашият обект.
+	//Те се намират	върху нашите пилони.
+	var start = new THREE.Vector3(-80,80,10);
+	var end = new THREE.Vector3(80,80,-10);
+	
+	//След като пилоните и сферата са добавени поставяме сферата на 
+	//върха на единия пилон
+	sphere.position.copy( start );
+
+	//Движенията са от сферата до точка end и от сферата до точка start
+	var tween1 = new TWEEN.Tween(sphere.position).to(end,2000).easing(TWEEN.Easing.Elastic.Out);
+	var tween2 = new TWEEN.Tween(sphere.position).to(start,2000).easing(TWEEN.Easing.Elastic.Out);
+			
+	// свързване на двете анимации една за друга и стартиране на едната
+	tween1.chain(tween2).start();
+	tween2.chain(tween1); 
+			
+	function animate( t )
+	{
+		//Обновяване на движението
+		TWEEN.update();
+	
+		scene.rotation.y = t/5;
+	}
+	</xmp></code></pre>
+            </div>
+
+            <div class="exampleFigure noBackground">
+                <h4 class="figureTitle">Фиг. 15 - Еластичност в края на движение</h4>
+                <video width="100%" autoplay muted loop>
+                    <source src="img/46_15.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <p>
+                Имаме различни плавности на движенията, които може да симулираме с
+                tween. Може да има по-бързо движение в началото и в края, а по средата
+                да е забавено или пък обратното. Може да се забързва и после забавя и още много
+                различни опции, които са представени на следващото изображение.
+            </p>
+
+            <div class="exampleFigure noBackground">
+                <h4 class="figureTitle">
+                    Фиг. 16 Плавност на движенията <a href="#source8" class="nlink" id="nlink8">[8]</a>
+                </h4><img src="img/46_16.jpg" width=60%>
+            </div>
+
+        </section>
+
+        <section id="physics_section">
+
+            <header>
+                <h2 class="section_title"> Моделиране на физични явления в уеб</h2>
+
+            </header>
+
+            <p>
+                Когато работим с триизмерни обекти често може да поискаме една по-реалистична анимация. За да постигнем
+                това, то движението на нашите обекти трябва да отговаря на физичните правила. Има доста библиотеки,
+                чрез които можем да моделираме основните физични явления – инерция, гравитация, триене, загуба на енергия и т.н.
+            </p>
+
+            <p>
+                Един често използван и доста интутивен инструмент е Phisijs. Phisijs е плъгин, изграден предимно върху
+                библиотеката ammo.js,
+                който изпълнява физични симулации в отделна нишка на процесора чрез web worker, като по този начин не
+                пречи на производителността на
+                приложението Ви и не отнема от времето за 3D изобразяване (rendering). Плъгинът е направен така, че
+                стилът на писане на кода да е почти напълно
+                идентичен с този на three.js, за да е максимално интуитивна работата с него (основната разлика е
+                промяната на позицията на обекта).
+                <a href="https://chandlerprall.github.io/Physijs/" target="_blank" class="downloadLinks">Изтеглете phisijs</a>
+
+            </p>
+
+            <p>
+                Чрез Phisijs можем да имитираме различни физични явления – можем да добавим гравитация към определена
+                точка (за илюстриране на орбита на планети и техните
+                спътници например), можем да подобрим „плоски“ движения (ако имаме падащ обект, можем да му добавим ъгъл
+                на завъртане и така да се търкаля, когато падне),
+                можем да добавяме ограничения на движенията без да се налага да пишем сложни функции за преизчисляване
+                на позициите на обектите.
+                <a href="#source9" class="nlink" id="nlink9">[9]</a>
+            </p>
+
+            <p>
+                Много важно нещо при използване на Phisijs е, че трябва файловете ни да се стартират
+                през http или https протокол поради защита на браузерите. Има няколко начина да се направи
+                това - да се пускат онлайн или през локален сървър като <a href="https://mongoose.en.softonic.com/" target="_blank">mongoose</a> 
+                или <a href="https://download.cnet.com/QuickPHP/3000-10248_4-10865997.html" target="_blank">quickphp</a>.
+            </p>
+
+            <p>
+                Има 5 основни стъпки, които да помогнат на нашата сцена да „оживее“.
+                <a href="#source10" class="nlink" id="nlink10">[10]</a>
+            </p>
+            <ol>
+                <li>Добавяме чрез тага &ltscript&gt нашата библиотека</li>
+                <li>
+                    Насочваме нашите Physijs.scripts.worker и Physijs.scripts.ammo параметри да сочат към нашия web
+                    worker и ammo.js скрипт.
+                </li>
+                <li>Заменяме THEE.Scene обекта с Physijs.Scene</li>
+                <li>
+                    Вместо THREE.Mesh използваме Physijs Mesh, съответстващ с геометрията на нашия обект
+                    (Physijs.BoxMesh, Physijs.SphereMesh и т.н.)
+                </li>
+                <li>Извикваме scene.simulate метода когато рендираме</li>
+            </ol>
+
+            <h4 class="exampleCodeTitle">Код 12 - Създаване на сцена с Phisijs</h4>
+            <div class="scrollmenu exampleCode">
+                <pre><code>	<xmp>
+                <!DOCTYPE html>
+                <html>
+
+                <head>
+                <script type="text/javascript" src="/js/Three.js"></script>
+                <script type="text/javascript" src="/js/physi.js"></script>
+	</head>
+                <body>
+                <div id="viewport"></div>
+                <script type="text/javascript">
+
+                    'use strict';
+
+                    Physijs.scripts.worker = '/js/physijs_worker.js';
+                    Physijs.scripts.ammo = '/js/ammo.js';
+
+                    var initScene, render, renderer, scene, camera, box;
+
+                    initScene = function () {
+                        renderer = new THREE.WebGLRenderer({ antialias: true });
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                        document.getElementById('viewport').appendChild(renderer.domElement);
+
+                        scene = new Physijs.Scene;
+
+                        camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
+                        camera.position.set(60, 50, 60);
+                        camera.lookAt(scene.position);
+                        scene.add(camera);
+
+                        // Box
+                        box = new Physijs.BoxMesh(
+                            new THREE.CubeGeometry(5, 5, 5),
+                            new THREE.MeshBasicMaterial({ color: 0x888888 })
+                        );
+                        scene.add(box);
+                        requestAnimationFrame(render);
+                    };
+
+                    render = function () {
+                        scene.simulate(); // run physics
+                        renderer.render(scene, camera); // render the scene
+                        requestAnimationFrame(render);
+                    };
+
+                    window.onload = initScene();
+
+</script>
+	</body>
+	</html>
+
+	</xmp></code></pre>
+            </div>
+
+            <p>
+                Вече видяхме основния принцип за създаване на физически коректен модел.
+                Нека разгледаме и малко интересни примери.
+            </p>
+
+
+            <div class="exampleFigure noBackground">
+                <h4 class="figureTitle">Фиг. 20 - Зарчета </h4>
+                <video width="100%" autoplay muted loop>
+                    <source src="img/46_20.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="exampleFigure noBackground">
+                <h4 class="figureTitle">Фиг. 21 Падащи топки</h4>
+                <video width="100%" autoplay muted loop>
+                    <source src="img/46_21.mp4" type="video/mp4">
+                </video>
+            </div>
+
+        </section>
+
+        <section id="more_libraries_section">
+            <header>
+                <h2 class="section_title">Други 3D библиотеки</h2>
+                <p>
+                    Разбира се, освен three.js още много добри библиотеки за
+                    създаване на 3D графика в Web. Сега ще споменем някои от тях.
+                </p>
+            </header>
+
+            <section>
+                <header>
+                    <h3 class="itemTitle">Babylon.js</h3>
+                </header>
+                <p>
+                    Babylon.js е още една доста мощна библиотека, базирана на
+                    WebGL, която се използва с JavaScript. Често се използва от уеб девелъпъри,
+                    които искат да създават уеб базирани игри. Библиотеката може да се използва
+                    за анимация, може да се вкарва аудио и дори да се създава виртуална реалност.
+                </p>
+
+                <p>
+                    След създаването на библиотеката през 2013 година намира приложение в много сфери:<a href="#source11" class="nlink" id="nlink11">[11]</a>
+                </p>
+                <ul>
+                    <li>blockcain светове</li>
+                    <li>в криминалистиката - за визуализиране на сцени от престъпления</li>
+                    <li>обучение в сферата на медицината</li>
+                    <li>моделиране на исторически обекти </li>
+                    <li>аватари</li>
+                    <li>военно обучение</li>
+                </ul>
+
+                <p>
+                    Source кодът на библиотеката е написан на TypeScript и компилиран в
+                    JavaScript версия. Когато се пишат проектите на JS те се интерпретират от всички
+                    уеб браузъри, които поддържат HTML5 и WebGL.
+                </p>
+
+                <footer>
+                    <a href="https://github.com/BabylonJS/Babylon.js" target="_blank" class="downloadLinks">Изтеглете babylon.js</a>
+                </footer>
+
+
+            </section>
+
+            <section>
+                <header>
+                    <h3 class="itemTitle">Cannon.js</h3>
+                </header>
+                <p>
+                    Cannon.js е една малко по-различна библиотека. Не отговаря точно на определените концепции
+                    за 3D библиотеки, а вместо това се използва повече като JavaScript-базирана physics engine
+                    за игри. Библиотеката е предназначена да зарежда бързо елементите на страницата и е поддържана от повечето
+                    браузури. Освен това работи добре с Canvas елементи и различни WebGL приложения.
+                </p>
+
+                <p>
+                    Cannon.js се смята за една по-компактна, по-разбираема и по-мощна в своето изпълнение спрямо други
+                    "физически" библиотеки като Ammo.js. С нея могат да се правят форми като сфера, равнина, изпъкнал
+                    полиедър, частица (particle), куб, цилиндър, heightfield (изображение, което се използва за добавяне на релеф на обект спрямо
+                    цвета на отделните пиксели). Cannon.js може да се използва заедно с Three.js и Babylon.js и освен
+                    това може да се използва за синхронизация на мрежова физика за мултиплейър онлайн игри, използвайки
+                    Lance.gg. <a href="#source12" class="nlink" id="nlink12">[12]</a>
+                </p>
+
+                <footer>
+                    <a href="https://github.com/schteppe/cannon.js" target="_blank" class="downloadLinks">Изтеглете Cannon.js</a>
+                </footer>
+
+
+            </section>
+
+            <section>
+                <header>
+                    <h3 class="itemTitle">PlayCanvas</h3>
+                </header>
+                <p>
+                    Това е библиотека, посветена специално на създаването на игри. PlayCanvas е 3D engine, подкрепен от собствена
+                    облачна платформа за разработка, която позволява на екипоте за уеб разработчици да редактират
+                    даден проект от множество компютри в реално време. Библиотеката се използва за създаване
+                    на 3D обекти, анимиране, физически симулации на твърди тела, добавяне на звуци.
+                </p>
+
+                <footer>
+                    <a href="https://github.com/playcanvas/engine?ref=hackernoon.com" target="_blank" class="downloadLinks">Изтеглете PlayCanvas</a>
+                </footer>
+
+            </section>   
+            
+      
+            <section>
+                <p>Други интересни библиотеки са: <a href="#source13" class="nlink" id="nlink13">[13]</a></p>
+                <ul>
+                    <li>Ammo.js</li>
+                    <li>D3</li>
+                    <li>Aframe</li>
+                    <li>Zdog</li>
+                    <li>LightGL.js</li>
+                    <li>Phoria.js</li>
+                    <li>Cesium</li>
+                    <li>Scene</li>
+                    <li>Xeogl</li>
+                    <li>ClayGl</li>
+
+                </ul>
+
+            </section>
+
+        </section>
+
+        <section id="css_section">
+            <header>
+                <h2 class="section_title">CSS и 3D графиката</h2>
+            </header>
+
+            <p>
+                Използването на 3D графиката в мрежата съществува от години, като
+                използваните инструменти WebGL, WebVR, three.js ни дават много възможности
+                за реализация на разнообразни среди и обекти. Понякога обаче имаме нужда от по-бърза
+                и лека трансформация и тези инструменти се оказват излишно сложни за нас. В такива случаи
+                на помощ идва CSS. Чрез него можем да подобрим дизайна на уеб приложенията си като им добавим още
+                едно измерение и създадем за някои обекти триизмерен ефект.
+            </p>
+
+            <p>
+                Перспективата е първото необходимо нещо за активиране на триизмерно пространство,
+                като тя се добавя чрез свойството transform и функцията perspective ().
+                Стойността, която подаваме на функцията perspective задава колко да е силен 3D ефектът,
+                като може да се приема и като разстояние между нашата гледна точка и наблюдавания обект.
+                <a href="#source14" class="nlink" id="nlink14">[14]</a>
+            </p>
+
+            <h4 class="exampleCodeTitle">Код 13 - Добавяне на ротация</h4>
+            <div class="scrollmenu exampleCode">
+                <pre><code><xmp>
+	.panel--red {
+		transform: perspective(400px) rotateY(45deg);
+	}
+	</xmp></code></pre>
+            </div>
+
+
+            <div class="exampleFigure noBackground">
+                <h4 class="figureTitle">
+                    Фиг. 22 - Завъртян панел</a>
+                </h4><img src="img/46_22.jpg" width=350px>
+            </div>
+
+            <p>Какво се случва обаче, когато опитаме да го приложим на повече елементи? Нека погледнем примера</p>
+
+            <h4 class="exampleCodeTitle">Код 14 - Ротация на няколко елемента</h4>
+            <div class="scrollmenu exampleCode">
+                <pre><code><xmp>
+	.panel--separate {
+		transform: perspective(400px) rotateY(45deg);
+	}
+
+	</xmp></code></pre>
+            </div>
+
+            <div class="exampleFigure noBackground">
+                <h4 class="figureTitle">
+                    Фиг. 23 - Разместени панели</a>
+                </h4><img src="img/46_23.jpg" width=350px>
+            </div>
+
+            <p>
+                Това, което виждаме, е че ефектът се чупи, тъй като всеки елемент има собствана перспектива и „точка на
+                изчезване“. Можем да оправим проблема като зададем perspective на общият родителски елемент, който в
+                случая е сцената,
+                за да се намират поделементите в еднакво пространство.
+            </p>
+
+            <h4 class="exampleCodeTitle">Код 15 - Поправена перспектива</h4>
+            <div class="scrollmenu">
+                <pre><code><xmp>
+	.scene--together {
+	  perspective: 400px;
+	}
+
+	.panel--together {
+	  transform: rotateY(45deg);
+	}
+	</xmp></code></pre>
+            </div>
+
+            <div class="exampleFigure noBackground">
+                <h4 class="figureTitle">
+                    Фиг. 24 Правилно завъртяни панели</a>
+                </h4><img src="img/46_24.jpg" width=350px>
+            </div>
+
+            <p>
+                При CSS функциите за трансформиране на триизмерни обекти са доста подобни на тези, за работа с
+                двуизмерни.
+                Можем да завъртаме обект по определена ос чрез функциите: 
+                <code class="exampleCode">
+                    rotateX( angle ),
+                    rotateY( angle ), rotateZ( angle ).
+                </code>
+                Да ги разтягаме : <code class="exampleCode">scaleХ( size ), scaleY( size ), scaleZ( size )</code>
+                Да ги местим по една или няколко оси : <code class="exampleCode">
+                    translateZ(tr),translateX(tr),translateY(tr).
+                </code>
+            </p>
+
+            <p>
+                Освен поотделно, можем да задаваме трансформациите по всички оси едновременно
+                <code class="exampleCode">translate3d( tx, ty, tz )</code>
+                <code class="exampleCode">scale3d( sx, sy, sz )</code>
+                <code class="exampleCode">rotate3d( rx, ry, rz, angle )</code>
+            </p>
+
+
+        </section>
+
+        <section id="conclusion_section">
+            <header>
+                <h2 class="section_title">Финални думи</h2>
+            </header>
+
+            <p>
+                Създаването на 3D графика в уеб е изключително интересна и приятна задача. Разбира се, зависи от това
+                как ще подходим към нея. Представените тук начини за създаване и анимиране на триизмерни обекти са
+                подходящи за
+                начинаещи – малко познания по css, js, html са достатъчни да започнете с 3D графиката.
+            </p>
+        </section>
+
+        <footer id="sources_section">
+
+            <p id="author">Изготвил: Велислава Петкова velislava_petkova1711@abv.bg, СИ, Курс 3, Група 1, Ф.Н. 62428, Реферат по WEB технологии, 2022 </p>
+
+
+            <h2 class="section_title">Източници</h2>
+
+            <ol id="sourceList">
+                <li id="source1">
+                    <a href="#nlink1">[1]</a> Three.js Manual, Fundamentals, <a href="https://threejs.org/manual/#en/fundamentals"
+                                                                                target="_blank">https://threejs.org/manual/#en/fundamentals</a>, последно посетен на 2022-04-11
+                </li>
+                <li id="source2">
+                    <a href="#nlink2">[2]</a> Three.js Manual, Cameras, <a href="https://threejs.org/manual/#en/cameras"
+                                                                           target="_blank">https://threejs.org/manual/#en/cameras</a>, последно посетен на 2022-04-11
+                </li>
+                <li id="source3">
+                    <a href="#nlink3">[3]</a> Three.js Documentation, Geometries - Cone Geometry, <a href="https://threejs.org/docs/index.html?q=geome#api/en/geometries/ConeGeometry"
+                                                                                                     target="_blank">https://threejs.org/docs/index.html?q=geome#api/en/geometries/ConeGeometry</a>,
+                    последно посетен на 2022-04-11
+                </li>
+                <li id="source4">
+                    <a href="#nlink4">[4]</a> Three.js Documentation, Materials, <a href="https://threejs.org/docs/index.html?q=mater#api/en/constants/Materials"
+                                                                                    target="_blank">https://threejs.org/docs/index.html?q=mater#api/en/constants/Materials</a>,
+                    последно посетен на 2022-04-12
+                </li>
+                <li id="source5">
+                    <a href="#nlink5">[5]</a> Three.js Documentation, Materials - Mesh Basic Material, <a href="https://threejs.org/docs/index.html?q=mater#api/en/materials/MeshBasicMaterial"
+                                                                                                          target="_blank">https://threejs.org/docs/index.html?q=mater#api/en/materials/MeshBasicMaterial</a>,
+                    последно посетен на 2022-04-12
+                </li>
+                <li id="source6">
+                    <a href="#nlink6">[6]</a> Three.js Documentation, Materials - Mesh Lambert Material, <a href="https://threejs.org/docs/index.html?q=mater#api/en/materials/MeshLambertMaterial"
+                                                                                                            target="_blank">https://threejs.org/docs/index.html?q=mater#api/en/materials/MeshLambertMaterial</a>,
+                    последно посетен на 2022-04-12
+                </li>
+                <li id="source7">
+                    <a href="#nlink7">[7]</a> Three.js Documentation, Materials - Mesh Phong Material, <a href="https://threejs.org/docs/index.html?q=phong#api/en/materials/MeshPhongMaterial"
+                                                                                                          target="_blank">https://threejs.org/docs/index.html?q=phong#api/en/materials/MeshPhongMaterial</a>,
+                    последно посетен на 2022-04-12
+                </li>
+                <li id="source8">
+                    <a href="#nlink8">[8]</a> GitHub, Имплементация на tween.js, examples, example 03 (Graphs), author: Joe Pea,
+                    published: 2020, <a href="https://github.com/tweenjs/tween.js/tree/master/examples"
+                                        target="_blank">https://tweenjs.github.io/tween.js/examples</a>, последно посетен на 2022-04-13
+                </li>
+
+                <li id="source9">
+                    <a href="#nlink9">[9]</a> GitHub, Имплементация на Physijs, author: Chandler Prall <a href="https://github.com/chandlerprall/Physijs"
+                                                                                                          target="_blank">https://github.com/chandlerprall/Physijs</a>, последно посетен на 2022-04-11
+                </li>
+                <li id="source10">
+                    <a href="#nlink10">[10]</a> GitHub, Имплементация на Physijs, Basic Setup, author: Chandler Prall, last edited:
+                    08.04.2016 <a href="https://github.com/chandlerprall/Physijs/wiki/Basic-Setup"
+                                  target="_blank">https://github.com/chandlerprall/Physijs/wiki/Basic-Setup</a>, последно посетен
+                    на 2022-04-13
+                </li>
+                <li id="source11">
+                    <a href="#nlink11">[11]</a>  Wikipedia.org, Babylon.js, последно посетен - 2022-05-05 <a href="https://en.wikipedia.org/wiki/Babylon.js#cite_ref-16"
+                                                                                                             target="_blank">https://en.wikipedia.org/wiki/Babylon.js#cite_ref-16</a>
+                </li>
+
+                <li id="source12">
+                    <a href="#nlink12">[12]</a>  1stwebdesigner.com, 3D javascript libraries, последно посетен - 2022-05-05 <a href="https://1stwebdesigner.com/3d-javascript-libraries/"
+                                                                                                                               target="_blank">https://1stwebdesigner.com/3d-javascript-libraries/</a>
+                </li>
+             
+                <li id="source13">
+                    <a href="#nlink13">[13]</a>  dunebook.com, 21 javascript 3D libraries and frameworks, последно посетен - 2022-05-05 <a href="https://www.dunebook.com/javascript-3d-libraries-and-frameworks/"
+   target="_blank">https://www.dunebook.com/javascript-3d-libraries-and-frameworks/</a>
+                </li>
+
+                
+                <li id="source14">
+                    <a href="#nlink14">[14]</a> desandro.com, 3D Transformations, perspective, последно посетен - 2022-04-14 <a href="https://3dtransforms.desandro.com/perspective"
+                                                                                                                                target="_blank">https://3dtransforms.desandro.com/perspective</a>
+                </li>
+                
+            </ol>
+
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

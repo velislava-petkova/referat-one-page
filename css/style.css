@@ -1,0 +1,178 @@
+/*
+class exampleCodeTitle - заглавията на отделените кодове
+class exampleCode - div съдържащ код
+
+class FigureTitle - заглавие на фигурите
+class exampleFigure - div съдържащ фигура
+
+class nlink - клас на всички референции, изпращащи към източниците в края на страницата
+id nlink1,nlink2...nlink11 - id-та на референциите, които препращат към източниците в края на страницата
+
+class itemTitle - заглавията на точките в секторите
+
+class exampleLine - това е span, чрез който слагаме в блок едноредови/двуредови примерчета в рамките на параграф, за да ги отделим само визуално
+
+id pageTitle - име на страницата/реферата
+
+class section_title - имената на отделните секции
+
+#intro_section,#effects_section,#physics_section,#css_section,#threejs_section, #sources_section - имена на отделните секции
+
+class scrollmenu - места, където искам вертикален scrollbar
+
+*/
+
+body {
+	background: #ccf2ff;
+}
+
+body #main_header, body main {
+	margin: 0 12%;
+	background: white;
+}
+
+#main_header{
+	padding-top: 80px;
+	margin-bottom: 0px;
+}
+
+#buttonsPar {
+	background: #9eb6de;
+	width: 100%;
+	position: fixed;
+	margin-top: 0px;
+	z-index: 20;
+	text-align: center;
+}
+
+
+#pageTitle{
+	margin-bottom: 0px;
+	text-align: center;
+	font-family: Book Antiqua;
+}
+
+.section_title{
+	text-align: center;
+	font-family: Book Antiqua; 
+	padding-bottom: 20px;
+	text-transform: uppercase;
+}
+
+.itemTitle{
+	font-family: Book Antiqua; 
+}
+
+.exampleCodeTitle, .figureTitle {
+	font-size: 15px;
+	font-family: Calibri;
+}
+
+main
+{
+	background: white;
+	margin: 0px auto 0 auto;
+	padding: 0px 50px 0 20px;
+	font-family: Arial;
+	text-align: justify;
+}
+
+
+#intro_section, #effects_section, #physics_section, #css_section,
+#threejs_section, #sources_section, #more_libraries_section {
+	padding-top: 70px;
+}
+
+#sources_section{
+	padding-bottom: 100px;
+}
+
+button {
+	background: none;
+	border: none;
+	font-family: Arial;
+	font-size: 0.9em;
+	height: 30px;
+}
+
+button a {
+	color: white;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+button a:hover{
+	font-weight: bold;
+	color: #E6E6FA;
+}
+
+.scrollmenu .exampleCode {
+  overflow: auto;
+  white-space: normal; 
+}
+
+.exampleLine{
+	display: block;
+}
+
+.exampleFigure{
+	position: relative;
+	margin: 10px auto;
+	background: #E6E6FA;
+
+}
+
+.exampleCode{
+	background: #f4e9f5;
+	border-radius: 20px;
+}
+
+.noBackground{
+	background: none;
+}
+
+p {
+	font-family: Arial; 
+	padding: 10px auto;
+}
+
+.nlink, #sourceList a{
+	font-size: 14px;
+	color: purple;
+}
+
+.downloadLinks {
+	padding: 4px;
+	color: #9eb6de;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-family: Arial;
+	font-size: 1em;
+}
+
+.carousel {
+	width: 300px;
+	margin: 20px auto;
+}
+
+.carousel-caption{
+	padding-bottom: 0%;	
+	text-align: right;
+	color: black;
+	font: Arial;
+	text-decoration: none;
+}
+
+.carousel-control-prev, .carousel-control-next{
+	padding: 50% 0;
+}
+
+#sourceList {
+   list-style-type:none;
+}
+
+#author {
+	padding: 25px;
+	color: purple;
+	font-size: 0.9em;
+}
